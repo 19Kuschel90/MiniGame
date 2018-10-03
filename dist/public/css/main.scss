@@ -1,0 +1,17 @@
+@import "playerSprites";
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background: green;
+}
+
+#background {
+    background: url('../img/Logo_200x200v6.png');
+    width: 100%;
+    height: 2000px;
+    background-repeat: space;
+}
