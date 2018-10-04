@@ -47,3 +47,17 @@ app.get('/', function(request, response) {
     response.sendFile(path.resolve(__dirname, root, 'index.html'));
 });
 
+var io = require('socket.io')(server);
+io.listen(server);
+
+const GameRoom1 = io.of('/GameRoom1');
+GameRoom1.on('connection', (socket) => {
+
+    time.CL("user Login" + socket.id);
+    socket.emit('join', "You Join the Room");
+    socket.emit('myID', socket.id);
+    socket.on('newPos', (pos) => {
+        GameRoom1.emit('newPos', pos);
+
+    });
+});

@@ -1,4 +1,5 @@
 @import "playerSprites";
+@import "controller";
 * {
     margin: 0;
     padding: 0;
@@ -11,7 +12,7 @@ body {
 
 #background {
     background: url('../img/Logo_200x200v6.png');
-    width: 100%;
+    width: 2000px;
     height: 2000px;
     background-repeat: space;
 }
