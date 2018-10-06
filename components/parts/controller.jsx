@@ -7,39 +7,51 @@ module.exports =  class controller extends React.Component {
     constructor(props){
         super(props);   
         this.state = {
-            postion: [ 100,  100]
+            postion:   this.props.spwan || [ 100,  100], // spwan
+            mapSize: this.props.mapSize || [ 0,0 ,2000, 2000],// map size in px
+            moveSpeed: this.props.moveSpeed || 10 // Move Speed
            }
            this.moveLeft = this.moveLeft.bind(this);
            this.moveRight = this.moveRight.bind(this);
            this.moveTop = this.moveTop.bind(this);
            this.moveDown = this.moveDown.bind(this);
            this.send = this.send.bind(this);
-
         }
         
     moveLeft(){
-        this.setState({postion: [this.state.postion[0],this.state.postion[1] - 10]});
-        this.send();
+        var move  = this.state.postion[1] - this.state.moveSpeed;
+        if(this.state.mapSize[0] < move){
+            this.setState({postion: [this.state.postion[0],this.state.postion[1] - 10]});
+            this.send();
+        } 
     }
     
-    moveRight(){
+    moveRight(){  
+         var move  = this.state.postion[1] + this.state.moveSpeed;
+        if(this.state.mapSize[2] > move){
         this.setState({postion: [this.state.postion[0],this.state.postion[1] + 10]});
         this.send();
+    }
         
     }
 
     moveTop(){
+        var move  = this.state.postion[0] - this.state.moveSpeed;
+        if(this.state.mapSize[1] < move){
         this.setState({postion: [this.state.postion[0] - 10,this.state.postion[1] ]});
         this.send();
+        3}
     }
 
     moveDown(){
+        var move  = this.state.postion[0] + this.state.moveSpeed;
+        if(this.state.mapSize[3] > move){
         this.setState({postion: [this.state.postion[0] + 10,this.state.postion[1] ]});
         this.send();
+        }
     }
 
     send(){
-        console.log("id controller", this.props.id);
         var newPosition = this.state.postion;
         newPosition.push(this.props.id);
             this.props.socket.emit('newPos',  newPosition);
