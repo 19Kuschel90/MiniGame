@@ -40,7 +40,7 @@ module.exports =  class controller extends React.Component {
         if(this.state.mapSize[1] < move){
         this.setState({postion: [this.state.postion[0] - 10,this.state.postion[1] ]});
         this.send();
-        3}
+        }
     }
 
     moveDown(){
