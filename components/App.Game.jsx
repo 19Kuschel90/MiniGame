@@ -34,26 +34,28 @@ module.exports =  class App extends React.Component {
     constructor(props){
         super(props);   
        this.state = {
-        postion: [ 250,  250],
-        id: 0
-
+        postion: [ -999, -999],
+        id: 0,
+        name: "No name"
        }
-       console.log("test");
        this.socket = io('/GameRoom1');
        this.socket.emit('connection', { });
-       this.socket.on('myID', (id)=> {
-           console.log("App id", id);
-           this.setState({id: id})
-       });
-
+       this.socket.on('myID', (data)=> {
+           this.setState({id: data.id});
+           this.setState({postion: [data.x, data.y]});
+           this.setState({name: data.name});
+        });
+        
+        
     }
     
-
+    
     render(){
+        console.log(this.state.postion);
     
         return(
             <div>
-                <Controller sprite={MySprites} socket={this.socket} id={this.state.id} collisions={this.props.collisions}></Controller>
+                <Controller sprite={MySprites} socket={this.socket} id={this.state.id} collisions={this.props.collisions} spwan={this.state.postion } playerName={this.state.name}></Controller>
                 <MultiPlayer sprite={MySprites} socket={this.socket} id={this.state.id} collisions={this.props.collisions}></MultiPlayer>
               
             </div>

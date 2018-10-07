@@ -92,11 +92,49 @@ var io = require('socket.io')(server);
 io.listen(server);
 
 const GameRoom1 = io.of('/GameRoom1');
-GameRoom1.on('connection', (socket) => {
 
+var spawnPoints = {
+    point: [{
+
+        x: 100,
+        y: 100
+    }, {
+        x: 200,
+        y: 500
+    }, {
+        x: 300,
+        y: 100
+    }, {
+        x: 100,
+        y: 200
+    }],
+    index: 0
+
+};
+
+GameRoom1.on('connection', (socket) => {
+    spawnPoints.index++;
+    if (spawnPoints.index > spawnPoints.point.length - 1) {
+        spawnPoints.index = 0;
+    }
     time.CL("user Login" + socket.id);
-    socket.emit('join', "You Join the Room");
-    socket.emit('myID', socket.id);
+    // socket.emit('join', );
+    socket.emit('myID', {
+        id: socket.id,
+        x: spawnPoints.point[spawnPoints.index].x,
+        y: spawnPoints.point[spawnPoints.index].y,
+        name: "you Player aaa"
+    });
+    GameRoom1.emit('addNewPlayer', {
+        postion: {
+            x: spawnPoints.point[spawnPoints.index].x,
+            y: spawnPoints.point[spawnPoints.index].y
+        },
+        id: socket.id,
+        name: "Server Player",
+        collider: null
+    })
+
     socket.on('newPos', (pos) => {
         GameRoom1.emit('newPos', pos);
 

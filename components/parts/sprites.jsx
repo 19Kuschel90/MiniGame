@@ -51,7 +51,7 @@ module.exports =  class sprites extends React.Component {
             <div className="playerSprites" style={ {
                 top:  this.props.postion[0] +"px",
                 left: this.props.postion[1] +"px"
-              }}>{this.props.playerName || "You"}
+              }}>{this.props.playerName || "You client"}
                 <div>{this.state.move.length}</div>
                   <img src={"img/" + this.state.move[this.state.index]} />
             </div>

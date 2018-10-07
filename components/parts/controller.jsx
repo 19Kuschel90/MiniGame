@@ -7,10 +7,11 @@ module.exports =  class controller extends React.Component {
     constructor(props){
         super(props);   
         this.state = {
-            postion:   this.props.spwan || [ 100,  100], // spwan
+            postion:    [ -999,  -999], // spwan
             mapSize: this.props.mapSize || [ 0,0 ,2000, 2000],// map size in px
             moveSpeed: this.props.moveSpeed || 10, // Move Speed
-            playerCollider: null
+            playerCollider: null,
+            canMove:false
         }
         this.collides = this.collides.bind(this);
            this.moveLeft = this.moveLeft.bind(this);
@@ -18,6 +19,7 @@ module.exports =  class controller extends React.Component {
            this.moveTop = this.moveTop.bind(this);
            this.moveDown = this.moveDown.bind(this);
            this.send = this.send.bind(this);
+           this.spawn = this.spawn.bind(this);
                   this.state.playerCollider  =  this.props.collisions.createPolygon(this.state.postion[0], this.state.postion[1], [[0, 0], [20, 20], [-10, 10]]);
         // this.setState({polygon: this.props.collisions.createPolygon(50, 50, [[0, 0], [20, 20], [-10, 10]])});
         // const wall2 = this.props.collisions.createPolygon(50, 50, [[-60, -20], [60, -20], [60, 20], [-60, 20]], 2.2);
@@ -47,7 +49,7 @@ module.exports =  class controller extends React.Component {
     moveLeft(){
         this.collides();
         var move  = this.state.postion[1] - this.state.moveSpeed;
-        if(this.state.mapSize[0] < move){
+        if(this.state.mapSize[0] < move && this.state.canMove){
             this.setState({postion: [this.state.postion[0],this.state.postion[1] - 10]});
             this.send();
             this.state.playerCollider.x = this.state.postion[0];
@@ -58,7 +60,7 @@ module.exports =  class controller extends React.Component {
     moveRight(){  
         this.collides();
         var move  = this.state.postion[1] + this.state.moveSpeed;
-        if(this.state.mapSize[2] > move){
+        if(this.state.mapSize[2] > move && this.state.canMove){
         this.setState({postion: [this.state.postion[0],this.state.postion[1] + 10]});
         this.send(); 
          this.state.playerCollider.x = this.state.postion[0];
@@ -70,7 +72,7 @@ module.exports =  class controller extends React.Component {
     moveTop(){
         this.collides();
         var move  = this.state.postion[0] - this.state.moveSpeed;
-        if(this.state.mapSize[1] < move){
+        if(this.state.mapSize[1] < move && this.state.canMove){
         this.setState({postion: [this.state.postion[0] - 10,this.state.postion[1] ]});
         this.send(); 
          this.state.playerCollider.x = this.state.postion[0];
@@ -81,7 +83,7 @@ module.exports =  class controller extends React.Component {
     moveDown(){
         this.collides();
         var move  = this.state.postion[0] + this.state.moveSpeed;
-        if(this.state.mapSize[3] > move){
+        if(this.state.mapSize[3] > move && this.state.canMove){
         this.setState({postion: [this.state.postion[0] + 10,this.state.postion[1] ]});
         this.send(); 
          this.state.playerCollider.x = this.state.postion[0];
@@ -95,8 +97,23 @@ module.exports =  class controller extends React.Component {
             this.props.socket.emit('newPos',  newPosition);
     }
 
+    spawn(){
+
+        this.setState({canMove: true});
+        this.setState({postion: this.props.spwan});
+    }
+
     render(){
-    
+        if(this.state.canMove == false)
+        {
+            console.log(this.state.postion );
+            console.log(this.props.spwan );
+
+            if(this.state.postion[0] != this.props.spwan[0])
+            {
+                this.spawn();
+            }
+        }
         return(
             <div>
                 <div className={"controller"}>
@@ -105,7 +122,7 @@ module.exports =  class controller extends React.Component {
                 <button onClick={this.moveRight}  className={"buttonRight"}>right</button>
                 <button onClick={this.moveDown} className={"buttonDown"}>down</button>
                 </div>
-              <this.props.sprite postion={[this.state.postion[0],this.state.postion[1]]} collisions={this.props.collisions}>
+              <this.props.sprite postion={[this.state.postion[0],this.state.postion[1]]} collisions={this.props.collisions} playerName={this.props.playerName}>
                 </this.props.sprite>
             </div>
         );
