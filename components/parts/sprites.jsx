@@ -1,6 +1,5 @@
 
 var React = require('react');
-
 module.exports =  class sprites extends React.Component {
     constructor(props){
         super(props);   
@@ -8,7 +7,11 @@ module.exports =  class sprites extends React.Component {
             move:["Luna_57x55_f1v1.png", "Luna_57x55_f1v2.png", "Luna_57x55_f1v3.png"],
             index: 2,
             state: "idl",
+     
         };
+        // this.state.circle.x     = 20;
+        // this.state.circle.y     = 30;
+        // this.state.circle.scale = 1.5;
         this.setNewSprite = this.setNewSprite.bind(this);
         // setInterval(this.setNewSprite(), 1000);
         this.intervalId = setInterval(this.setNewSprite,  this.props.time || 250);
@@ -28,7 +31,10 @@ module.exports =  class sprites extends React.Component {
     }
 
     render(){
-    
+        // this.state.system.update();
+        // if(this.state.circle.collides(line)) {
+        //     console.log('Collision detected!');
+        // }
         return(
             <div className="playerSprites" style={ {
                 top:  this.props.postion[0] +"px",
