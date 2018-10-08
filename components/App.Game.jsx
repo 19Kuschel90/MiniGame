@@ -42,10 +42,17 @@ module.exports =  class App extends React.Component {
        this.socket.emit('connection', { });
        this.socket.on('myID', (data)=> {
            this.setState({id: data.id});
-           this.setState({postion: [data.x, data.y]});
+           this.setState({postion: [data.postion.x, data.postion.y]});
            this.setState({name: data.name});
         });
-        
+        var othis = this;
+        window.addEventListener("beforeunload", function (event) {
+            // Cancel the event as stated by the standard.
+            event.preventDefault();
+            // Chrome requires returnValue to be set.
+            othis.socket.emit('disconnet', othis.state.id);
+            event.returnValue = '';
+          });
         
     }
     

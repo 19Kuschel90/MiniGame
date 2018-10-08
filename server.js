@@ -109,22 +109,29 @@ var spawnPoints = {
         y: 200
     }],
     index: 0
-
 };
+
+var listOfPlayer = [];
+
 
 GameRoom1.on('connection', (socket) => {
     spawnPoints.index++;
     if (spawnPoints.index > spawnPoints.point.length - 1) {
         spawnPoints.index = 0;
     }
+    listOfPlayer.push({
+        postion: {
+            x: spawnPoints.point[spawnPoints.index].x,
+            y: spawnPoints.point[spawnPoints.index].y
+        },
+        id: socket.id,
+        name: "Server Player",
+        collider: null
+    });
     time.CL("user Login" + socket.id);
     // socket.emit('join', );
-    socket.emit('myID', {
-        id: socket.id,
-        x: spawnPoints.point[spawnPoints.index].x,
-        y: spawnPoints.point[spawnPoints.index].y,
-        name: "you Player aaa"
-    });
+    socket.emit('myID', listOfPlayer[listOfPlayer.length - 1]);
+    socket.emit('sendListOfPlayer', listOfPlayer);
     GameRoom1.emit('addNewPlayer', {
         postion: {
             x: spawnPoints.point[spawnPoints.index].x,
@@ -139,4 +146,22 @@ GameRoom1.on('connection', (socket) => {
         GameRoom1.emit('newPos', pos);
 
     });
+
+
+    //////////////////////////////
+    // disconnet
+    socket.on('disconnet', (id) => {
+        // console.log("disconnet");
+        // console.log(id);
+        if (socket.id == id) {
+            removePlayer(socket.id);
+        }
+        GameRoom1.emit('removePlayer', id);
+    });
 });
+
+function removePlayer(id) {
+    listOfPlayer = listOfPlayer.filter(listOfPlayer => listOfPlayer.id != id);
+    // console.log("end: ", listOfPlayer);
+
+}

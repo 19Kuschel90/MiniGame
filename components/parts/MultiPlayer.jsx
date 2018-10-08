@@ -11,26 +11,7 @@ module.exports =  class MultiPlayer extends React.Component {
         this.removePlayer = this.removePlayer.bind(this);
         this.setAllPlayer = this.setAllPlayer.bind(this);
         this.state = {
-            listOfPlayer: [
-                // {
-            //     postion:{
-            //         x: 300,
-            //         y: 300
-            //     },
-            // id: null,
-            // name: "No Name",
-            // collider:  this.props.collisions.createPolygon(300, 300, [[-60, -20], [60, -20], [60, 20], [-60, 20]], 2.2)
-            // },
-            // {
-            //     postion:{
-            //         x: 500,
-            //         y: 500
-            //     },
-            // id: null,
-            // name: "player3",
-            // collider:  this.props.collisions.createPolygon(500, 500, [[-60, -20], [60, -20], [60, 20], [-60, 20]], 2.2)
-            // }
-        ]
+            listOfPlayer: []
            }
            
         }
@@ -38,6 +19,8 @@ module.exports =  class MultiPlayer extends React.Component {
         componentWillMount(){
             this.props.socket.on('newPos',  (pos) =>  { this.setNewPos(pos);});
             this.props.socket.on('addNewPlayer',  (data) =>  { this.addNewPlayer( data);});
+            this.props.socket.on('sendListOfPlayer',  (data) =>  { this.setState( {listOfPlayer: data});});
+            this.props.socket.on('removePlayer',  (id) =>  { this.removePlayer(id)});
         }
         
         setNewPos(pos){
@@ -60,19 +43,25 @@ module.exports =  class MultiPlayer extends React.Component {
        }
 
        removePlayer(id){
-        const items = this.state.listOfPlayer;
-        const filteredItems = items.filter(function(item) {
-            return ite.id !== id
-          });
-          this.setState({listOfPlayer: filteredItems});
+           if(id === this.props.id){
+               return;
+           }
+   
+        //    listOfPlayer = listOfPlayer.filter(listOfPlayer => listOfPlayer.id != id);
+  
+    this.setState({listOfPlayer: (this.state.listOfPlayer.filter(listOfPlayer => listOfPlayer.id != id))});
+    // console.log("end: ", listOfPlayer);
        }
 
        setAllPlayer(){
         var Output = [];
         this.state.listOfPlayer.forEach(element => {
-            Output.push(
-                <this.props.sprite postion={[element.postion.x,element.postion.y]} playerName={element.name} ></this.props.sprite>
-            );
+            if(element.id != this.props.id)
+            {
+                Output.push(
+                    <this.props.sprite postion={[element.postion.x,element.postion.y]} playerName={element.name} ></this.props.sprite>
+                    );
+                }
             });
 
         return Output;
