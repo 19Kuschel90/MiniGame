@@ -144,7 +144,6 @@ GameRoom1.on('connection', (socket) => {
 
     socket.on('newPos', (pos) => {
         GameRoom1.emit('newPos', pos);
-
     });
 
 

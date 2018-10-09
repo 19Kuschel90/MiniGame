@@ -27,9 +27,22 @@ module.exports =  class MultiPlayer extends React.Component {
             
             if(this.props.id != pos[2])
             {
-                // console.log("in hier");
-                var newPos = [pos[0],pos[1]];
-                this.setState({postion: newPos});
+                var temp = this.state.listOfPlayer;
+                for (let index = 0; index < this.state.listOfPlayer.length; index++) {
+                    
+                    if(this.state.listOfPlayer[index].id === pos[2])
+                    {
+
+                        this.state.listOfPlayer[index].postion.x = pos[0];
+                        this.state.listOfPlayer[index].postion.y = pos[1];
+
+                        temp = this.state.listOfPlayer;
+                    }
+                }
+
+
+                this.setState({listOfPlayer: temp});
+
             }
         }
         
@@ -37,7 +50,7 @@ module.exports =  class MultiPlayer extends React.Component {
             console.log("addNewPlayer");
             if(this.props.id != data.id)
             {
-                data.collider =  this.props.collisions.createPolygon(data.postion.x, data.postion.x, [[-60, -20], [60, -20], [60, 20], [-60, 20]], 2.2);
+                data.collider =  this.props.collisions.createPolygon(data.postion.x, data.postion.y, [[-60, -20], [60, -20], [60, 20], [-60, 20]], 2.2);
                 this.setState({listOfPlayer: [...this.state.listOfPlayer,data] });
             }
        }
