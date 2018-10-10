@@ -48,12 +48,12 @@ module.exports =  class sprites extends React.Component {
     render(){
     
         return(
-            <div className="playerSprites" style={ {
+            <div className="playerSprites " style={ {
                 top:  this.props.postion[0] +"px",
                 left: this.props.postion[1] +"px"
-              }}>{this.props.playerName || "You client"}
-                <div>{this.state.move.length}</div>
-                  <img src={"img/" + this.state.move[this.state.index]} />
+              }}>
+              {/* {this.props.playerName || "You client"} */}
+                  <img src={"img/" + this.state.move[this.state.index]} className="collider"/>
             </div>
         );
     }

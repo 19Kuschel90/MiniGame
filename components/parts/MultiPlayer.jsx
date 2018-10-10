@@ -7,7 +7,6 @@ module.exports =  class MultiPlayer extends React.Component {
         super(props);   
         this.componentWillMount = this.componentWillMount.bind(this);
         this.setNewPos = this.setNewPos.bind(this);
-        this.addNewPlayer = this.addNewPlayer.bind(this);
         this.removePlayer = this.removePlayer.bind(this);
         this.setAllPlayer = this.setAllPlayer.bind(this);
         this.state = {
@@ -18,8 +17,22 @@ module.exports =  class MultiPlayer extends React.Component {
         
         componentWillMount(){
             this.props.socket.on('newPos',  (pos) =>  { this.setNewPos(pos);});
-            this.props.socket.on('addNewPlayer',  (data) =>  { this.addNewPlayer( data);});
-            this.props.socket.on('sendListOfPlayer',  (data) =>  { this.setState( {listOfPlayer: data});});
+            this.props.socket.on('sendListOfPlayer',  (data) =>  { 
+                    // to do
+                    var newData = [];
+                    if(data.length > 1)
+                    {
+
+                        data.forEach(element => {
+                            if(element.id !== this.props.id)
+                            {
+                                element.collider =  this.props.collisions.createPolygon(element.postion.x , element.postion.y, [[0, 0], [0, 57], [57, 0], [57,57]]);
+                                newData.push(element);
+                            }
+                        });
+                    }
+                this.setState( {listOfPlayer: newData});
+            });
             this.props.socket.on('removePlayer',  (id) =>  { this.removePlayer(id)});
         }
         
@@ -35,7 +48,9 @@ module.exports =  class MultiPlayer extends React.Component {
 
                         this.state.listOfPlayer[index].postion.x = pos[0];
                         this.state.listOfPlayer[index].postion.y = pos[1];
-
+                        this.state.listOfPlayer[index].collider.x  = pos[0];
+                       
+                        this.state.listOfPlayer[index].collider.y = pos[1];
                         temp = this.state.listOfPlayer;
                     }
                 }
@@ -45,25 +60,13 @@ module.exports =  class MultiPlayer extends React.Component {
 
             }
         }
-        
-        addNewPlayer(data){
-            console.log("addNewPlayer");
-            if(this.props.id != data.id)
-            {
-                data.collider =  this.props.collisions.createPolygon(data.postion.x, data.postion.y, [[-60, -20], [60, -20], [60, 20], [-60, 20]], 2.2);
-                this.setState({listOfPlayer: [...this.state.listOfPlayer,data] });
-            }
-       }
+       
 
        removePlayer(id){
            if(id === this.props.id){
                return;
-           }
-   
-        //    listOfPlayer = listOfPlayer.filter(listOfPlayer => listOfPlayer.id != id);
-  
+           }  
     this.setState({listOfPlayer: (this.state.listOfPlayer.filter(listOfPlayer => listOfPlayer.id != id))});
-    // console.log("end: ", listOfPlayer);
        }
 
        setAllPlayer(){
@@ -72,6 +75,7 @@ module.exports =  class MultiPlayer extends React.Component {
             if(element.id != this.props.id)
             {
                 Output.push(
+                    
                     <this.props.sprite postion={[element.postion.x,element.postion.y]} playerName={element.name} ></this.props.sprite>
                     );
                 }

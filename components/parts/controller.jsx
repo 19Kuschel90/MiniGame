@@ -11,7 +11,8 @@ module.exports =  class controller extends React.Component {
             mapSize: this.props.mapSize || [ 0,0 ,2000, 2000],// map size in px
             moveSpeed: this.props.moveSpeed || 10, // Move Speed
             playerCollider: null,
-            canMove:false
+            canMove:false,
+            speed: 50 
         }
         this.collides = this.collides.bind(this);
            this.moveLeft = this.moveLeft.bind(this);
@@ -20,7 +21,7 @@ module.exports =  class controller extends React.Component {
            this.moveDown = this.moveDown.bind(this);
            this.send = this.send.bind(this);
            this.spawn = this.spawn.bind(this);
-                  this.state.playerCollider  =  this.props.collisions.createPolygon(this.state.postion[0], this.state.postion[1], [[0, 0], [20, 20], [-10, 10]]);
+                  this.state.playerCollider  =  this.props.collisions.createPolygon(this.state.postion[0], this.state.postion[1], [[0, 0], [0, 57], [57, 0], [57,57]]);
         // this.setState({polygon: this.props.collisions.createPolygon(50, 50, [[0, 0], [20, 20], [-10, 10]])});
         // const wall2 = this.props.collisions.createPolygon(50, 50, [[-60, -20], [60, -20], [60, 20], [-60, 20]], 2.2);
     //  this.props.collisions.createPolygon(300, 500, [[-60, -20], [60, -20], [60, 20], [-60, 20]], 1.7);
@@ -31,63 +32,106 @@ module.exports =  class controller extends React.Component {
         collides(){
             this.props.collisions.update();
     const potentials = this.state.playerCollider.potentials();
-    console.log("testss");
     for(const wall of potentials) {
-        console.log('hhi');
-    
+        
         // Test if the player collides with the wall
         if(this.state.playerCollider.collides(wall)) {
             console.log('collides');
-            // Push the player out of the wall
-            // player.x -= result.overlap * result.overlap_x;
-            // player.y -= result.overlap * result.overlap_y;
+            return true;
         }
     }
-
+    console.log('NOOOOO collides');
+    return false;
         }
+
         
     moveLeft(){
-        this.collides();
+        console.log('performance. neu',performance.now() * (this.state.speed / 1000) );
+
         var move  = this.state.postion[1] - this.state.moveSpeed;
         if(this.state.mapSize[0] < move && this.state.canMove){
-            this.setState({postion: [this.state.postion[0],this.state.postion[1] - 10]});
-            this.send();
+            var oldPostion = this.state.postion;
+            this.setState({postion: [this.state.postion[0],this.state.postion[1] - (this.state.speed *(this.state.speed / 1000) )]});
             this.state.playerCollider.x = this.state.postion[0];
             this.state.playerCollider.y = this.state.postion[1];
+            
+            if(this.collides())
+            {
+                this.setState({postion: [this.state.postion[0],this.state.postion[1] + (this.state.speed *(this.state.speed / 1000) )]});
+                this.state.playerCollider.x = this.state.postion[0];
+                this.state.playerCollider.y = this.state.postion[1];
+                return;
+            }
+                this.send(); 
+            
+            
         } 
     }
     
     moveRight(){  
-        this.collides();
+       
         var move  = this.state.postion[1] + this.state.moveSpeed;
         if(this.state.mapSize[2] > move && this.state.canMove){
-        this.setState({postion: [this.state.postion[0],this.state.postion[1] + 10]});
-        this.send(); 
-         this.state.playerCollider.x = this.state.postion[0];
-        this.state.playerCollider.y = this.state.postion[1];
+            var oldPostion = this.state.postion;
+            this.setState({postion: [this.state.postion[0],this.state.postion[1] + (this.state.speed *(this.state.speed / 1000) )]});
+            this.state.playerCollider.x = this.state.postion[0];
+            this.state.playerCollider.y = this.state.postion[1];
+            
+            if(this.collides())
+            {
+                this.setState({postion: [this.state.postion[0],this.state.postion[1] - (this.state.speed *(this.state.speed / 1000) )]});
+                this.state.playerCollider.x = this.state.postion[0];
+                this.state.playerCollider.y = this.state.postion[1];
+                return;
+            }
+                this.send(); 
+            
+            
     }
         
     }
 
     moveTop(){
-        this.collides();
+       
         var move  = this.state.postion[0] - this.state.moveSpeed;
         if(this.state.mapSize[1] < move && this.state.canMove){
-        this.setState({postion: [this.state.postion[0] - 10,this.state.postion[1] ]});
-        this.send(); 
-         this.state.playerCollider.x = this.state.postion[0];
-        this.state.playerCollider.y = this.state.postion[1];
+            var oldPostion = this.state.postion;
+            this.setState({postion: [this.state.postion[0] - (this.state.speed *(this.state.speed / 1000) ),this.state.postion[1] ]});
+            this.state.playerCollider.x = this.state.postion[0];
+            this.state.playerCollider.y = this.state.postion[1];
+            
+            if(this.collides())
+            {
+                this.setState({postion: [this.state.postion[0] + (this.state.speed  *(this.state.speed / 1000)  ) ,this.state.postion[1] ]});
+                this.state.playerCollider.x = this.state.postion[0];
+                this.state.playerCollider.y = this.state.postion[1];
+                return;
+            }
+                this.send(); 
+            
+            
         }
     }
 
     moveDown(){
-        this.collides();
+       
         var move  = this.state.postion[0] + this.state.moveSpeed;
         if(this.state.mapSize[3] > move && this.state.canMove){
-        this.setState({postion: [this.state.postion[0] + 10,this.state.postion[1] ]});
-        this.send(); 
-         this.state.playerCollider.x = this.state.postion[0];
-        this.state.playerCollider.y = this.state.postion[1];
+        var oldPostion = this.state.postion;
+            this.setState({postion: [this.state.postion[0]+ (this.state.speed *(this.state.speed / 1000) ),this.state.postion[1]]});
+            this.state.playerCollider.x = this.state.postion[0];
+            this.state.playerCollider.y = this.state.postion[1];
+            
+            if(this.collides())
+            {
+                this.setState({postion: [this.state.postion[0]-(this.state.speed *(this.state.speed / 1000) ),this.state.postion[1]]});
+                this.state.playerCollider.x = this.state.postion[0];
+                this.state.playerCollider.y = this.state.postion[1];
+                return;
+            }
+                this.send(); 
+            
+            
         }
     }
 
@@ -122,6 +166,18 @@ module.exports =  class controller extends React.Component {
                 <button onClick={this.moveRight}  className={"buttonRight"}>right</button>
                 <button onClick={this.moveDown} className={"buttonDown"}>down</button>
                 </div>
+
+                <div className="weapons-1">
+                  <img src={"img/OC.svg" } className="pic"/>
+                </div>
+                <div className="weapons-2">
+                  <img src={"img/OC.svg" } className="pic"/>
+                </div>
+                <div className="weapons-3">
+                  <img src={"img/OC.svg" } className="pic"/>
+                </div>
+
+            
               <this.props.sprite postion={[this.state.postion[0],this.state.postion[1]]} collisions={this.props.collisions} playerName={this.props.playerName}>
                 </this.props.sprite>
             </div>

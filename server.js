@@ -115,6 +115,8 @@ var listOfPlayer = [];
 
 
 GameRoom1.on('connection', (socket) => {
+
+    // set spawn piont
     spawnPoints.index++;
     if (spawnPoints.index > spawnPoints.point.length - 1) {
         spawnPoints.index = 0;
@@ -131,19 +133,21 @@ GameRoom1.on('connection', (socket) => {
     time.CL("user Login" + socket.id);
     // socket.emit('join', );
     socket.emit('myID', listOfPlayer[listOfPlayer.length - 1]);
-    socket.emit('sendListOfPlayer', listOfPlayer);
-    GameRoom1.emit('addNewPlayer', {
-        postion: {
-            x: spawnPoints.point[spawnPoints.index].x,
-            y: spawnPoints.point[spawnPoints.index].y
-        },
-        id: socket.id,
-        name: "Server Player",
-        collider: null
-    })
+    GameRoom1.emit('sendListOfPlayer', listOfPlayer);
+    // GameRoom1.emit('addNewPlayer', {
+    //     postion: {
+    //         x: spawnPoints.point[spawnPoints.index].x,
+    //         y: spawnPoints.point[spawnPoints.index].y
+    //     },
+    //     id: socket.id,
+    //     name: "Server Player",
+    //     collider: null
+    // })
 
     socket.on('newPos', (pos) => {
         GameRoom1.emit('newPos', pos);
+        (listOfPlayer.filter(listOfPlayer => listOfPlayer.id == pos[2]))[0].postion.x = pos[0];
+        (listOfPlayer.filter(listOfPlayer => listOfPlayer.id == pos[2]))[0].postion.y = pos[1];
     });
 
 
@@ -162,5 +166,6 @@ GameRoom1.on('connection', (socket) => {
 function removePlayer(id) {
     listOfPlayer = listOfPlayer.filter(listOfPlayer => listOfPlayer.id != id);
     // console.log("end: ", listOfPlayer);
+
 
 }
