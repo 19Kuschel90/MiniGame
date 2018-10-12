@@ -22,10 +22,7 @@ module.exports =  class controller extends React.Component {
            this.send = this.send.bind(this);
            this.spawn = this.spawn.bind(this);
                   this.state.playerCollider  =  this.props.collisions.createPolygon(this.state.postion[0], this.state.postion[1], [[0, 0], [0, 57], [57, 0], [57,57]]);
-        // this.setState({polygon: this.props.collisions.createPolygon(50, 50, [[0, 0], [20, 20], [-10, 10]])});
-        // const wall2 = this.props.collisions.createPolygon(50, 50, [[-60, -20], [60, -20], [60, 20], [-60, 20]], 2.2);
-    //  this.props.collisions.createPolygon(300, 500, [[-60, -20], [60, -20], [60, 20], [-60, 20]], 1.7);
-// const wall3 = this.props.collisions.createPolygon(400, 50, [[-60, -20], [60, -20], [60, 20], [-60, 20]], 0.7);
+
 
         }
 
@@ -168,7 +165,7 @@ module.exports =  class controller extends React.Component {
                 </div>
 
                 <div className="weapons-1">
-                  <img src={"img/OC.svg" } className="pic"/>
+                  <img src={ null  ||"img/OC.svg" } className="pic"/>
                 </div>
                 <div className="weapons-2">
                   <img src={"img/OC.svg" } className="pic"/>

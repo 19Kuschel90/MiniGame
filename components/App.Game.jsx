@@ -45,6 +45,7 @@ module.exports =  class App extends React.Component {
            this.setState({postion: [data.postion.x, data.postion.y]});
            this.setState({name: data.name});
         });
+        this.socket.emit('cookie', document.cookie);
         var othis = this;
         window.addEventListener("beforeunload", function (event) {
             // Cancel the event as stated by the standard.
@@ -56,6 +57,9 @@ module.exports =  class App extends React.Component {
         
     }
     
+  
+
+
     
     render(){
         console.log(this.state.postion);

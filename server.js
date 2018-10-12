@@ -29,28 +29,67 @@ class CMyTime {
 var time = new CMyTime();
 
 var express = require('express');
+const fileUpload = require('express-fileupload');
 const path = require('path');
 var app = express();
-
 const root = './dist/public'; // export folder
 const port = 3000;
-
 app.use(express.static(root));
 app.set('port', process.env.PORT || port); // z.B: PORT=9000 npm start
 var server = app.listen(process.env.PORT || port);
 time.CL('is running ' + app.get('port'));
 
-
 app.use(express.static(root));
-
+app.use(fileUpload());
 
 
 app.get('/', function(request, response) {
     // time.CL('requst is  ' + request);
-
     response.sendFile(path.resolve(__dirname, root, 'index.html'));
 });
 
+app.post('/upload', function(req, res) {
+    console.log("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$");
+
+    console.log(req);
+    console.log("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$");
+
+    console.log(req.files);
+    console.log("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$");
+    console.log(req.headers.cookie);
+    console.log("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$");
+
+    if (!req.files)
+        return res.status(400).send('No files were uploaded.');
+
+    // The name of the input field (i.e. "sampleFile") is used to retrieve the uploaded file
+    let sampleFile = req.files.sampleFile;
+    // console.log(sampleFile);
+    // Use the mv() method to place the file somewhere on your server
+    sampleFile.mv('dist/public/uploadimg/filename.png', function(err) {
+        if (err)
+            return res.status(500).send(err);
+
+        // res.send('File uploaded!');
+        console.log("file uploaded");
+
+        res.sendFile(path.resolve(__dirname, root, 'index.html'));
+
+    });
+});
+
+app.get('/EDITOR', function(request, response) {
+
+    // time.CL('requst is  ' + request);
+
+    response.sendFile(path.resolve(__dirname, root, 'editor.html'));
+});
+
+app.get('/GAME', function(request, response) {
+    // time.CL('requst is  ' + request);
+
+    response.sendFile(path.resolve(__dirname, root, 'index.html'));
+});
 
 
 // const system = new Collisions();
@@ -131,6 +170,14 @@ GameRoom1.on('connection', (socket) => {
         collider: null
     });
     time.CL("user Login" + socket.id);
+
+    socket.on('cookie', (cookie) => {
+
+
+        console.log(cookie);
+
+
+    });
     // socket.emit('join', );
     socket.emit('myID', listOfPlayer[listOfPlayer.length - 1]);
     GameRoom1.emit('sendListOfPlayer', listOfPlayer);
@@ -166,6 +213,4 @@ GameRoom1.on('connection', (socket) => {
 function removePlayer(id) {
     listOfPlayer = listOfPlayer.filter(listOfPlayer => listOfPlayer.id != id);
     // console.log("end: ", listOfPlayer);
-
-
 }
