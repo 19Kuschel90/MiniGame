@@ -8,6 +8,7 @@ module.exports =  class Editor extends React.Component {
         
        }
        this.handleImage = this.handleImage.bind(this);
+       this.moreImg = this.moreImg.bind(this);
         // this.handleImage();
         // console.log(fileInput);
         // fileInput.addEventListener('change', () => this.handleImage(fileInput, AvatarImg));   
@@ -39,6 +40,13 @@ module.exports =  class Editor extends React.Component {
             }
     }
 
+    moreImg(posID){
+        var Output = [];
+        document.getElementById("moreTop").innerHTML +=  
+             '     <div> <img alt="not" src="img/Luna_57x55_f1v1.png" id="img" width="57" height="57"></img><input type="file" name="sampleFile"  id="fileInput" /></div>';
+        
+
+    }
 
     
     render(){
@@ -54,13 +62,16 @@ module.exports =  class Editor extends React.Component {
                 <form ref='uploadForm' id='uploadForm' action='http://localhost:3000/upload#test' method='post' encType="multipart/form-data">
                 <ul>
                     <li> Move top<div>
+                        
+                    <img alt="not" src="img/Luna_57x55_f1v1.png" id="img" width="57" height="57"></img>
+                    <input type="file" name="sampleFile"  id="fileInput" />
+                    <div id="moreTop"></div>
+                    </div></li>
+                    <li onClick={this.moreImg}> Add New Frame<div>
                     <img alt="not" src="img/Luna_57x55_f1v1.png" id="img" width="57" height="57"></img>
                     </div></li>
-                    <li> Add New Frame<div>
-                    {/* <img alt="not" src="img/Luna_57x55_f1v1.png" id="img" width="57" height="57"></img> */}
-                <input type="file" name="sampleFile"  id="fileInput" />
-                    </div></li>
                 </ul>
+                ////////////////////////////////////////////////////
                 <ul>
                     <li> Move left<div>
                     <img alt="not" src="img/Luna_57x55_f1v1.png" id="img" width="57" height="57"></img>
@@ -71,6 +82,7 @@ module.exports =  class Editor extends React.Component {
                     <img alt="not" src="img/Luna_57x55_f1v1.png" id="img" width="57" height="57"></img>
                     </div></li>
                 </ul>
+                ////////////////////////////////////////////////////
                 <ul>
                     <li> Move Right<div>
                     <img alt="not" src="img/Luna_57x55_f1v1.png" id="img" width="57" height="57"></img>
@@ -81,10 +93,11 @@ module.exports =  class Editor extends React.Component {
                     <img alt="not" src="img/Luna_57x55_f1v1.png" id="img" width="57" height="57"></img>
                     </div></li>
                 </ul>
+                ////////////////////////////////////////////////////
                 <ul>
                     <li> Move down<div>
                     <img alt="not" src="img/Luna_57x55_f1v1.png" id="img" width="57" height="57"></img>
-        <input type="file" name="sampleFile"  id="fileInput2" />
+                    <input type="file" name="sampleFile"  id="fileInput2" />
                     
                     </div></li>
                     <li> Add New Frame<div>
