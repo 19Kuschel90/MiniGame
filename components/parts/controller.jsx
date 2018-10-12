@@ -12,7 +12,8 @@ module.exports =  class controller extends React.Component {
             moveSpeed: this.props.moveSpeed || 10, // Move Speed
             playerCollider: null,
             canMove:false,
-            speed: 50 
+            speed: 50,
+            direction: "left"
         }
         this.collides = this.collides.bind(this);
            this.moveLeft = this.moveLeft.bind(this);
@@ -59,9 +60,8 @@ module.exports =  class controller extends React.Component {
                 this.state.playerCollider.y = this.state.postion[1];
                 return;
             }
-                this.send(); 
-            
-            
+            this.setState({direction: "left"});
+                this.send();    
         } 
     }
     
@@ -81,9 +81,8 @@ module.exports =  class controller extends React.Component {
                 this.state.playerCollider.y = this.state.postion[1];
                 return;
             }
-                this.send(); 
-            
-            
+            this.setState({direction: "right"});     
+            this.send();     
     }
         
     }
@@ -104,6 +103,8 @@ module.exports =  class controller extends React.Component {
                 this.state.playerCollider.y = this.state.postion[1];
                 return;
             }
+            this.setState({direction: "top"});
+
                 this.send(); 
             
             
@@ -126,6 +127,8 @@ module.exports =  class controller extends React.Component {
                 this.state.playerCollider.y = this.state.postion[1];
                 return;
             }
+            this.setState({direction: "down"});
+
                 this.send(); 
             
             
@@ -133,8 +136,13 @@ module.exports =  class controller extends React.Component {
     }
 
     send(){
-        var newPosition = this.state.postion;
-        newPosition.push(this.props.id);
+        var newPosition = {
+            postion: this.state.postion,
+            id: this.props.id,
+            direction: this.state.direction
+        }
+        // var newPosition = this.state.postion;
+        // newPosition.push(this.props.id);
             this.props.socket.emit('newPos',  newPosition);
     }
 
@@ -175,7 +183,7 @@ module.exports =  class controller extends React.Component {
                 </div>
 
             
-              <this.props.sprite postion={[this.state.postion[0],this.state.postion[1]]} collisions={this.props.collisions} playerName={this.props.playerName}>
+              <this.props.sprite postion={[this.state.postion[0],this.state.postion[1]]} collisions={this.props.collisions} playerName={this.props.playerName} direction={this.state.direction}>
                 </this.props.sprite>
             </div>
         );

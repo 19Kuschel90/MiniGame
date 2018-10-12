@@ -5,7 +5,13 @@ module.exports =  class sprites extends React.Component {
     constructor(props){
         super(props);   
         this.state = {
-            move:["Luna_57x55_f1v1.png", "Luna_57x55_f1v2.png", "Luna_57x55_f1v3.png"],
+            move:
+            {
+                "left":["Luna_57x55_f1v1.png", "Luna_57x55_f1v2.png", "Luna_57x55_f1v3.png"],
+                "right":['', '', ''],
+                "top":['', '', ''],
+                "down":['', '', '']
+            },
             index: 2,
             state: "idl"
             // polygon: null
@@ -26,7 +32,7 @@ module.exports =  class sprites extends React.Component {
 
     setNewSprite(){
         var newIndex = this.state.index +1;
-        if(this.state.move.length - 1 < newIndex)
+        if(this.state.move[this.props.direction].length - 1 < newIndex)
         {
             newIndex = 0;
         }
@@ -53,7 +59,7 @@ module.exports =  class sprites extends React.Component {
                 left: this.props.postion[1] +"px"
               }}>
               {/* {this.props.playerName || "You client"} */}
-                  <img src={"img/" + this.state.move[this.state.index]} className="collider"/>
+                  <img src={"img/" + this.state.move[this.props.direction][this.state.index]} className="collider"/>
             </div>
         );
     }

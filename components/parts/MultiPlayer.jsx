@@ -38,20 +38,22 @@ module.exports =  class MultiPlayer extends React.Component {
         
         setNewPos(pos){
             
-            if(this.props.id != pos[2])
+            if(this.props.id != pos.id)
             {
                 var temp = this.state.listOfPlayer;
                 for (let index = 0; index < this.state.listOfPlayer.length; index++) {
                     
-                    if(this.state.listOfPlayer[index].id === pos[2])
+                    if(this.state.listOfPlayer[index].id === pos.id)
                     {
 
-                        this.state.listOfPlayer[index].postion.x = pos[0];
-                        this.state.listOfPlayer[index].postion.y = pos[1];
-                        this.state.listOfPlayer[index].collider.x  = pos[0];
+                        this.state.listOfPlayer[index].postion.x = pos.postion[0];
+                        this.state.listOfPlayer[index].postion.y = pos.postion[1];
+                        this.state.listOfPlayer[index].collider.x  = pos.postion[0];
                        
-                        this.state.listOfPlayer[index].collider.y = pos[1];
+                        this.state.listOfPlayer[index].collider.y = pos.postion[1];
+                        this.state.listOfPlayer[index].direction = pos.direction;
                         temp = this.state.listOfPlayer;
+                        
                     }
                 }
 
@@ -76,7 +78,7 @@ module.exports =  class MultiPlayer extends React.Component {
             {
                 Output.push(
                     
-                    <this.props.sprite postion={[element.postion.x,element.postion.y]} playerName={element.name} ></this.props.sprite>
+                    <this.props.sprite postion={[element.postion.x,element.postion.y]} playerName={element.name}  direction={element.direction}></this.props.sprite>
                     );
                 }
             });

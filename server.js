@@ -49,33 +49,39 @@ app.get('/', function(request, response) {
 });
 
 app.post('/upload', function(req, res) {
-    console.log("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$");
-
-    console.log(req);
-    console.log("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$");
-
-    console.log(req.files);
-    console.log("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$");
-    console.log(req.headers.cookie);
-    console.log("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$");
 
     if (!req.files)
         return res.status(400).send('No files were uploaded.');
 
-    // The name of the input field (i.e. "sampleFile") is used to retrieve the uploaded file
-    let sampleFile = req.files.sampleFile;
+    // console.log(req.files);
+    // console.log("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$");
+    // console.log(req.files.sampleFile[0]);
+    let index = 0;
+    try {
+        req.files.sampleFile.forEach(element => {
+            index++;
+            // The name of the input field (i.e. "sampleFile") is used to retrieve the uploaded file
+
+            element.mv(`dist/public/uploadimg/filename${index}.png`, function(err) {
+                if (err)
+                    return res.status(500).send(err);
+
+                // res.send('File uploaded!');
+                console.log("file uploaded");
+
+                res.sendFile(path.resolve(__dirname, root, 'game.html'));
+
+            });
+        });
+
+    } catch (error) {
+        console.log("file uploaded fail");
+        console.log(error);
+    }
+    // let sampleFile = req.files.sampleFile[0];
+
     // console.log(sampleFile);
     // Use the mv() method to place the file somewhere on your server
-    sampleFile.mv('dist/public/uploadimg/filename.png', function(err) {
-        if (err)
-            return res.status(500).send(err);
-
-        // res.send('File uploaded!');
-        console.log("file uploaded");
-
-        res.sendFile(path.resolve(__dirname, root, 'index.html'));
-
-    });
 });
 
 app.get('/EDITOR', function(request, response) {
@@ -88,7 +94,7 @@ app.get('/EDITOR', function(request, response) {
 app.get('/GAME', function(request, response) {
     // time.CL('requst is  ' + request);
 
-    response.sendFile(path.resolve(__dirname, root, 'index.html'));
+    response.sendFile(path.resolve(__dirname, root, 'game.html'));
 });
 
 
@@ -167,7 +173,8 @@ GameRoom1.on('connection', (socket) => {
         },
         id: socket.id,
         name: "Server Player",
-        collider: null
+        collider: null,
+        direction: "left"
     });
     time.CL("user Login" + socket.id);
 
@@ -193,8 +200,9 @@ GameRoom1.on('connection', (socket) => {
 
     socket.on('newPos', (pos) => {
         GameRoom1.emit('newPos', pos);
-        (listOfPlayer.filter(listOfPlayer => listOfPlayer.id == pos[2]))[0].postion.x = pos[0];
-        (listOfPlayer.filter(listOfPlayer => listOfPlayer.id == pos[2]))[0].postion.y = pos[1];
+        console.log(pos.postion);
+        (listOfPlayer.filter(listOfPlayer => listOfPlayer.id == pos.id))[0].postion.x = pos.postion[0];
+        (listOfPlayer.filter(listOfPlayer => listOfPlayer.id == pos.id))[0].postion.y = pos.postion[1];
     });
 
 
