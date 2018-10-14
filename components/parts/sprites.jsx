@@ -7,10 +7,10 @@ module.exports =  class sprites extends React.Component {
         this.state = {
             move:
             {
-                "left":["Luna_57x55_f1v1.png", "Luna_57x55_f1v2.png", "Luna_57x55_f1v3.png"],
-                "right":['', '', ''],
-                "top":['', '', ''],
-                "down":['', '', '']
+                "left":["magic_left1.svg", "magic_left2.svg"],
+                "right":['magic_Right1.svg', 'magic_Right2.svg'],
+                "top":['', ''],
+                "down":['', '']
             },
             index: 2,
             state: "idl"
@@ -23,6 +23,7 @@ module.exports =  class sprites extends React.Component {
         // this.state.circle.x     = 20;
         // this.state.circle.y     = 30;
         // this.state.circle.scale = 1.5;
+        console.log( "this state",this.state);
         this.setNewSprite = this.setNewSprite.bind(this);
         // setInterval(this.setNewSprite(), 1000);
         this.intervalId = setInterval(this.setNewSprite,  this.props.time || 250);

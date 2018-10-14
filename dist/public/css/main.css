@@ -3,6 +3,8 @@
 }
 
 .collider {
+  width: 57px;
+  height: 57px;
   background-color: blueviolet;
   opacity: 0.8;
 }
@@ -87,6 +89,18 @@ ul li {
   display: inline-block;
 }
 
+canvas {
+  border: solid;
+}
+
+.Select {
+  border: 3px solid deepskyblue;
+}
+
+.notSelect {
+  border: 3px outset darkmagenta;
+}
+
 * {
   margin: 0;
   padding: 0;
@@ -99,7 +113,7 @@ body {
 }
 
 #background {
-  background: url("../img/Logo_200x200v6.png");
+  background: url("../img/mapV0.png");
   width: 2000px;
   height: 2000px;
   background-repeat: space;

@@ -1,8 +1,8 @@
 module.exports = {
     mode: 'development',
-    entry: "./client-Editor.jsx",
+    entry: "./client-App.jsx",
     output: {
-        filename: "./public/js/BundleEditor.js"
+        filename: "./public/js/Bundle.js"
     },
     module: {
         rules: [{

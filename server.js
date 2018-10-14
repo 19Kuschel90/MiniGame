@@ -141,17 +141,17 @@ const GameRoom1 = io.of('/GameRoom1');
 var spawnPoints = {
     point: [{
 
-        x: 100,
-        y: 100
+        x: 500,
+        y: 600
     }, {
-        x: 200,
+        x: 250,
         y: 500
     }, {
-        x: 300,
-        y: 100
+        x: 1000,
+        y: 400
     }, {
-        x: 100,
-        y: 200
+        x: 1000,
+        y: 900
     }],
     index: 0
 };
