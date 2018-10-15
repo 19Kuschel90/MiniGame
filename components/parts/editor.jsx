@@ -13,10 +13,19 @@ module.exports =  class Editor extends React.Component {
        this.handleImage = this.handleImage.bind(this);
        this.select = this.select.bind(this);
        this.newCanvasImg = this.newCanvasImg.bind(this);
+
+       //////////////////////
+       // add
        this.addimgTop = this.addimgTop.bind(this);
        this.addimgDown = this.addimgDown.bind(this);
        this.addimgLeft = this.addimgLeft.bind(this);
        this.addimgRight = this.addimgRight.bind(this);
+       ////////////////
+       // remove
+       this.removeTop = this.removeTop.bind(this);
+       this.addimgDown = this.addimgDown.bind(this);
+       this.removeLeft = this.removeLeft.bind(this);
+       this.removeRight = this.removeRight.bind(this);
         // this.handleImage();
         // console.log(fileInput);
         // fileInput.addEventListener('change', () => this.handleImage(fileInput, AvatarImg));   
@@ -57,33 +66,56 @@ module.exports =  class Editor extends React.Component {
 
     newCanvasImg(target)
     {
-        var AvatarImg = target;
-        var canvas = document.getElementById('canvas');
-        var ctx = canvas.getContext("2d");
+        let AvatarImg = target;
+        let canvas = document.getElementById('canvas');
+        let ctx = canvas.getContext("2d");
         ctx.clearRect(0,0,canvas.width, canvas.height);
         ctx.drawImage(AvatarImg, 0, 0, 57,57);
 
     }
 
     addimgTop(){
-        var temp = [<div> <img alt="not" src="img/Luna_57x55_f1v1.png"  width="57" height="57" className="notSelect imgTemp" onClick={this.select}></img><input type="file" name="sampleFile"  id="fileInput" /></div>]
+        let temp = [<div> <img alt="not" src="img/Luna_57x55_f1v1.png"  width="57" height="57" className="notSelect imgTemp" onClick={this.select}></img><input type="file" name="sampleFile"  id="fileInput" /></div>]
         this.setState({moreImgTop: [...this.state.moreImgTop,temp ]});
     }
     addimgDown(){
-        var temp = [<div> <img alt="not" src="img/Luna_57x55_f1v1.png"  width="57" height="57" className="notSelect imgTemp" onClick={this.select}></img><input type="file" name="sampleFile"  id="fileInput" /></div>]
+        let temp = [<div> <img alt="not" src="img/Luna_57x55_f1v1.png"  width="57" height="57" className="notSelect imgTemp" onClick={this.select}></img><input type="file" name="sampleFile"  id="fileInput" /></div>]
         this.setState({moreImgDown: [...this.state.moreImgDown,temp ]});
     }
     addimgLeft(){
-        var temp = [<div> <img alt="not" src="img/Luna_57x55_f1v1.png"  width="57" height="57" className="notSelect imgTemp" onClick={this.select}></img><input type="file" name="sampleFile"  id="fileInput" /></div>]
+        let temp = [<div> <img alt="not" src="img/Luna_57x55_f1v1.png"  width="57" height="57" className="notSelect imgTemp" onClick={this.select}></img><input type="file" name="sampleFile"  id="fileInput" /></div>]
         this.setState({moreImgLeft: [...this.state.moreImgLeft,temp ]});
     }
     addimgRight(){
-        var temp = [<div> <img alt="not" src="img/Luna_57x55_f1v1.png"  width="57" height="57" className="notSelect imgTemp" onClick={this.select}></img><input type="file" name="sampleFile"  id="fileInput" /></div>]
+        let temp = [<div> <img alt="not" src="img/Luna_57x55_f1v1.png"  width="57" height="57" className="notSelect imgTemp" onClick={this.select}></img><input type="file" name="sampleFile"  id="fileInput" /></div>]
         this.setState({moreImgRight: [...this.state.moreImgRight,temp ]});
     }
 
+    removeTop(){
+        let temp = this.state.moreImgTop;
+        temp.pop();
+        this.setState({moreImgTop: temp});
+    }
+    removeDown(){
+        let temp = this.state.moreImgDown;
+        temp.pop();
+        this.setState({moreImgDown: temp});
+    }
+
+    removeLeft(){
+        let temp = this.state.moreImgLeft;
+        temp.pop();
+        this.setState({moreImgLeft: temp});
+    }
+
+    removeRight(){
+        let temp = this.state.moreImgRight;
+        temp.pop();
+        this.setState({moreImgRight: temp});
+    }
+
     select(e){   
-        var temp = document.getElementsByClassName('imgTemp');
+        let temp = document.getElementsByClassName('imgTemp');
         console.log(temp);
         for (let index = 0; index < temp.length; index++) {
             temp[index].classList.add("notSelect");
@@ -115,9 +147,12 @@ module.exports =  class Editor extends React.Component {
                     <input type="file" name="sampleFile"  id="fileInput" />
                     <div id="moreTop">{this.state.moreImgTop}</div>
                     </div></li>
-                    <li onClick={this.addimgTop}> Add New Frame<div>
-                    <img alt="not" src="img/plussvg.svg"  width="57" height="57"></img>
-                    </div></li>
+                    <li> Add New Frame<div>
+                    <img alt="not" src="img/plussvg.svg"  width="57" height="57" onClick={this.addimgTop}></img>
+                    <img alt="not" src="img/minus.svg"  width="57" height="57" onClick={this.removeTop}></img>
+                    </div>
+                    
+                    </li>
                 </ul>
                 ////////////////////////////////////////////////////
                 <ul>
@@ -126,8 +161,9 @@ module.exports =  class Editor extends React.Component {
                        <input type="file" name="sampleFile"  id="fileInput2" />
                          <div id="moreTop">{this.state.moreImgLeft}</div>
                     </div></li>
-                    <li onClick={this.addimgLeft}> Add New Frame<div>
-                    <img alt="not" src="img/plussvg.svg"  width="57" height="57"></img>
+                    <li > Add New Frame<div>
+                    <img alt="not" src="img/plussvg.svg"  width="57" height="57" onClick={this.addimgLeft}></img>
+                    <img alt="not" src="img/minus.svg"  width="57" height="57" onClick={this.removeLeft}></img>
                     </div></li>
                 </ul>
                 ////////////////////////////////////////////////////
@@ -137,8 +173,9 @@ module.exports =  class Editor extends React.Component {
                       <input type="file" name="sampleFile"  id="fileInput2" />
                      <div id="moreTop">{this.state.moreImgRight}</div>
                     </div></li>
-                    <li onClick={this.addimgRight}> Add New Frame<div>
-                    <img alt="not" src="img/plussvg.svg"  width="57" height="57"></img>
+                    <li > Add New Frame<div>
+                    <img alt="not" src="img/plussvg.svg"  width="57" height="57" onClick={this.addimgRight}></img>
+                    <img alt="not" src="img/minus.svg"  width="57" height="57" onClick={this.removeRight}></img>
                     </div></li>
                 </ul>
                 ////////////////////////////////////////////////////
@@ -148,8 +185,9 @@ module.exports =  class Editor extends React.Component {
                     <input type="file" name="sampleFile"  id="fileInput2" />
                     <div id="moreTop">{this.state.moreImgDown}</div>
                     </div></li>
-                    <li onClick={this.addimgDown}> Add New Frame<div>
-                    <img alt="not" src="img/plussvg.svg"  width="57" height="57"></img>
+                    <li > Add New Frame<div>
+                    <img alt="not" src="img/plussvg.svg"  width="57" height="57" onClick={this.addimgDown}></img>
+                    <img alt="not" src="img/minus.svg"  width="57" height="57" onClick={this.removeDown}></img>
                     </div></li>
                 </ul>
               

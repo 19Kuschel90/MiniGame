@@ -179,11 +179,7 @@ GameRoom1.on('connection', (socket) => {
     time.CL("user Login" + socket.id);
 
     socket.on('cookie', (cookie) => {
-
-
         console.log(cookie);
-
-
     });
     // socket.emit('join', );
     socket.emit('myID', listOfPlayer[listOfPlayer.length - 1]);
@@ -200,7 +196,7 @@ GameRoom1.on('connection', (socket) => {
 
     socket.on('newPos', (pos) => {
         GameRoom1.emit('newPos', pos);
-        console.log(pos.postion);
+        // console.log(pos.postion);
         (listOfPlayer.filter(listOfPlayer => listOfPlayer.id == pos.id))[0].postion.x = pos.postion[0];
         (listOfPlayer.filter(listOfPlayer => listOfPlayer.id == pos.id))[0].postion.y = pos.postion[1];
     });
