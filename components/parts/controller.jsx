@@ -15,6 +15,8 @@ module.exports =  class controller extends React.Component {
             speed: 50,
             direction: "left"
         }
+        // createCanvas(720, 400);
+        // img = loadImage("img/Logo_200x200v6.png"); // Load the image
         this.collides = this.collides.bind(this);
            this.moveLeft = this.moveLeft.bind(this);
            this.moveRight = this.moveRight.bind(this);
@@ -153,10 +155,11 @@ module.exports =  class controller extends React.Component {
     }
 
     render(){
+
         if(this.state.canMove == false)
         {
-            console.log(this.state.postion );
-            console.log(this.props.spwan );
+            // console.log(this.state.postion );
+            // console.log(this.props.spwan );
 
             if(this.state.postion[0] != this.props.spwan[0])
             {

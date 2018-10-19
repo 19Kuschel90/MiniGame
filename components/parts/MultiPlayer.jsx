@@ -72,7 +72,7 @@ module.exports =  class MultiPlayer extends React.Component {
        }
 
        setAllPlayer(){
-        var Output = [];
+        var Output =  [];
         this.state.listOfPlayer.forEach(element => {
             if(element.id != this.props.id)
             {

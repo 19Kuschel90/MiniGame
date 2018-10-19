@@ -1,15 +1,14 @@
 module.exports = {
     mode: 'development',
-    entry: "./client-Editor.jsx",
+    entry: "./client-App.jsx",
     output: {
-        filename: "./public/js/BundleEditor.js"
+        filename: "./public/js/BundleGame.js"
     },
     module: {
         rules: [{
             test: /\.(js|jsx)$/,
             exclude: /node_modules/,
             use: ['babel-loader']
-
         }]
     },
     resolve: {

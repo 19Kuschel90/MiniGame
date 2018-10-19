@@ -30,6 +30,8 @@ var io = require('socket.io-client');
 //         console.log('Collision detected!');
 //     }
 // }
+
+
 module.exports =  class App extends React.Component {
     constructor(props){
         super(props);   
@@ -62,7 +64,6 @@ module.exports =  class App extends React.Component {
 
     
     render(){
-        console.log(this.state.postion);
     
         return(
             <div>
