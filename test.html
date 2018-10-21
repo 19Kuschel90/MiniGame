@@ -1,23 +1,12 @@
-<!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
-    <meta charset="utf-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>index</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="mobile-web-app-capable" content="yes">
-    <link rel="manifest" href="manifest.json">
-    <link rel="icon" sizes="192x192" href="img/drawing192x192.png">
-
-    <meta name="google-signin-scope" content="emndef@gmail.com">
+    <meta name="google-signin-scope" content="profile email">
     <meta name="google-signin-client_id" content="167179324199-b3ob25nalgn2d5e3cfucbm1hb5jthcqm.apps.googleusercontent.com">
     <script src="https://apis.google.com/js/platform.js" async defer></script>
 </head>
 
 <body>
-    <a href="/EDITOR">EDITOR</a>
-    <a href="/GAME">GAME</a>
     <div class="g-signin2" data-onsuccess="onSignIn" data-theme="dark"></div>
     <script>
         function onSignIn(googleUser) {

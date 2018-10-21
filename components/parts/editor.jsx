@@ -10,6 +10,7 @@ module.exports =  class Editor extends React.Component {
            moreImgLeft: [],
            moreImgRight: []
        }
+       this.ifInputNull = this.ifInputNull.bind(this);
        this.handleImage = this.handleImage.bind(this);
        this.select = this.select.bind(this);
        this.newCanvasImg = this.newCanvasImg.bind(this);
@@ -23,20 +24,30 @@ module.exports =  class Editor extends React.Component {
        ////////////////
        // remove
        this.removeTop = this.removeTop.bind(this);
-       this.addimgDown = this.addimgDown.bind(this);
+       this.removeDown = this.removeDown.bind(this);
        this.removeLeft = this.removeLeft.bind(this);
        this.removeRight = this.removeRight.bind(this);
-        // this.handleImage();
-        // console.log(fileInput);
-        // fileInput.addEventListener('change', () => this.handleImage(fileInput, AvatarImg));   
+       
+       this.newImg = this.newImg.bind(this);
+    }
 
-    //   var temp =  document.getElementsByClassName("notSelect");
-    //   console.log(temp);
-    //   temp.forEach(element => {
-    //     element.onClick = (element) => this.select;
-    //    });
+    ifInputNull(){
+     var arr =    document.getElementsByName('sampleFile');
+     arr[0].files[0].push().name = "testAA";
+     arr[0].files[0].type = "image/png";
+     arr[0].files[0].size = 298351;
+     console.log(arr[0].files[0]);
     }
     
+    newImg(e){
+        // console.log(e.target.previousSibling);
+     var file =   e.target.files;
+     var image = e.target.previousSibling;
+     image.src = window.URL.createObjectURL(file[0]);
+    }
+
+
+    // old
     handleImage(){
         var fileInput = document.getElementById('fileInput');
         var canvas = document.getElementById('canvas');
@@ -75,20 +86,40 @@ module.exports =  class Editor extends React.Component {
     }
 
     addimgTop(){
-        let temp = [<div> <img alt="not" src="img/Luna_57x55_f1v1.png"  width="57" height="57" className="notSelect imgTemp" onClick={this.select}></img><input type="file" name="sampleFile"  id="fileInput" /></div>]
-        this.setState({moreImgTop: [...this.state.moreImgTop,temp ]});
+        if(this.state.moreImgTop.length < 4)
+        {
+            let temp = [<div> <img alt="not" src="img/Luna_57x55_f1v1.png"  width="57" height="57" className="notSelect imgTemp" onClick={this.select}></img><input type="file" name="sampleFile"   /></div>]
+            this.setState({moreImgTop: [...this.state.moreImgTop,temp ]});
+        }else{
+            document.getElementById('MoveTopError').innerHTML = "Max 5 Sprits";
+        }
     }
     addimgDown(){
-        let temp = [<div> <img alt="not" src="img/Luna_57x55_f1v1.png"  width="57" height="57" className="notSelect imgTemp" onClick={this.select}></img><input type="file" name="sampleFile"  id="fileInput" /></div>]
-        this.setState({moreImgDown: [...this.state.moreImgDown,temp ]});
+        if(this.state.moreImgDown.length < 4)
+        {
+            let temp = [<div> <img alt="not" src="img/Luna_57x55_f1v1.png"  width="57" height="57" className="notSelect imgTemp" onClick={this.select}></img><input type="file" name="sampleFile" onChange={this.newImg} /></div>]
+            this.setState({moreImgDown: [...this.state.moreImgDown,temp ]});
+        }else{
+            document.getElementById('MoveDownError').innerHTML = "Max 5 Sprits";
+        }
     }
     addimgLeft(){
-        let temp = [<div> <img alt="not" src="img/Luna_57x55_f1v1.png"  width="57" height="57" className="notSelect imgTemp" onClick={this.select}></img><input type="file" name="sampleFile"  id="fileInput" /></div>]
-        this.setState({moreImgLeft: [...this.state.moreImgLeft,temp ]});
+        if(this.state.moreImgLeft.length < 4)
+        {
+            let temp = [<div> <img alt="not" src="img/Luna_57x55_f1v1.png"  width="57" height="57" className="notSelect imgTemp" onClick={this.select}></img><input type="file" name="sampleFile"  onChange={this.newImg} /></div>]
+            this.setState({moreImgLeft: [...this.state.moreImgLeft,temp ]});
+        }else{
+            document.getElementById('MoveLeftError').innerHTML = "Max 5 Sprits";
+        }        
     }
     addimgRight(){
-        let temp = [<div> <img alt="not" src="img/Luna_57x55_f1v1.png"  width="57" height="57" className="notSelect imgTemp" onClick={this.select}></img><input type="file" name="sampleFile"  id="fileInput" /></div>]
-        this.setState({moreImgRight: [...this.state.moreImgRight,temp ]});
+        if(this.state.moreImgRight.length < 4)
+        {
+            let temp = [<div> <img alt="not" src="img/Luna_57x55_f1v1.png"  width="57" height="57" className="notSelect imgTemp" onClick={this.select}></img><input type="file" name="sampleFile"   onChange={this.newImg} /></div>]
+            this.setState({moreImgRight: [...this.state.moreImgRight,temp ]});
+        }else{
+            document.getElementById('MoveRightError').innerHTML = "Max 5 Sprits";
+        }        
     }
 
     removeTop(){
@@ -143,56 +174,59 @@ module.exports =  class Editor extends React.Component {
                 <ul>
                     <li> Move top<div>
                         
-                    <img alt="not" src="img/Luna_57x55_f1v1.png"  width="57" height="57" className="notSelect imgTemp Select" onClick={this.select}></img>
-                    <input type="file" name="sampleFile"  id="fileInput" />
+                    <img alt="not" src="img/Luna_57x55_f1v1.png"  width="57" height="57" className="notSelect imgTemp Select"  onClick={this.select}></img>
+                    <input type="file" name="sampleFile"  onChange={this.newImg} src="#"/>
                     <div id="moreTop">{this.state.moreImgTop}</div>
                     </div></li>
                     <li> Add New Frame<div>
                     <img alt="not" src="img/plussvg.svg"  width="57" height="57" onClick={this.addimgTop}></img>
                     <img alt="not" src="img/minus.svg"  width="57" height="57" onClick={this.removeTop}></img>
                     </div>
-                    
+                    <div id="MoveTopError"></div>
                     </li>
                 </ul>
                 ////////////////////////////////////////////////////
                 <ul>
                     <li> Move left<div>
                     <img alt="not" src="img/RAGE.png"  width="57" height="57" className="notSelect imgTemp Select" onClick={this.select}></img>
-                       <input type="file" name="sampleFile"  id="fileInput2" />
+                       <input type="file" name="sampleFile"  onChange={this.newImg}  />
                          <div id="moreTop">{this.state.moreImgLeft}</div>
                     </div></li>
                     <li > Add New Frame<div>
                     <img alt="not" src="img/plussvg.svg"  width="57" height="57" onClick={this.addimgLeft}></img>
                     <img alt="not" src="img/minus.svg"  width="57" height="57" onClick={this.removeLeft}></img>
-                    </div></li>
+                    </div>
+                    <div id="MoveLeftError"></div></li>
                 </ul>
                 ////////////////////////////////////////////////////
                 <ul>
                     <li> Move Right<div>
                     <img alt="not" src="img/Luna_57x55_f1v1.png"  width="57" height="57" className="notSelect imgTemp Select" onClick={this.select}></img>
-                      <input type="file" name="sampleFile"  id="fileInput2" />
+                      <input type="file" name="sampleFile"  onChange={this.newImg}  />
                      <div id="moreTop">{this.state.moreImgRight}</div>
                     </div></li>
                     <li > Add New Frame<div>
                     <img alt="not" src="img/plussvg.svg"  width="57" height="57" onClick={this.addimgRight}></img>
                     <img alt="not" src="img/minus.svg"  width="57" height="57" onClick={this.removeRight}></img>
-                    </div></li>
+                    </div>
+                    <div id="MoveRightError"></div></li>
                 </ul>
                 ////////////////////////////////////////////////////
                 <ul>
                     <li> Move down<div>
                     <img alt="not" src="img/Logo_200x200v6.png"  width="57" height="57" className="notSelect imgTemp Select"  onClick={this.select}></img>
-                    <input type="file" name="sampleFile"  id="fileInput2" />
+                    <input type="file" name="sampleFile" onChange={this.newImg}  />
                     <div id="moreTop">{this.state.moreImgDown}</div>
                     </div></li>
                     <li > Add New Frame<div>
                     <img alt="not" src="img/plussvg.svg"  width="57" height="57" onClick={this.addimgDown}></img>
                     <img alt="not" src="img/minus.svg"  width="57" height="57" onClick={this.removeDown}></img>
-                    </div></li>
+                    </div>
+                    <div id="MoveDownError"></div></li>
                 </ul>
               
                 
-        <input type='submit' value='Upload!' />
+        <input type='submit' value='Upload!' onClick={this.ifInputNull}/>
     </form> 
                 </div> 
                 </div>
