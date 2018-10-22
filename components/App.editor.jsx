@@ -1,5 +1,5 @@
 var React = require('react');
-var Editor = require('./parts/editor')
+var Editor = require('./parts/editor');
 
 
 module.exports =  class App extends React.Component {

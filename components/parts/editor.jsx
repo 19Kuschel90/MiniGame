@@ -1,6 +1,5 @@
 
 var React = require('react');
-
 module.exports =  class Editor extends React.Component {
     constructor(props){
         super(props);   
@@ -36,7 +35,7 @@ module.exports =  class Editor extends React.Component {
      arr[0].files[0].push().name = "testAA";
      arr[0].files[0].type = "image/png";
      arr[0].files[0].size = 298351;
-     console.log(arr[0].files[0]);
+    //  console.log(arr[0].files[0]);
     }
     
     newImg(e){

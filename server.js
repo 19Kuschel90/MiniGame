@@ -57,8 +57,8 @@ app.post('/upload', function(req, res) {
     // console.log("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$");
     // console.log(req.files.sampleFile[0]);
     let index = 0;
-    try {
-        req.files.sampleFile.forEach(element => {
+    req.files.sampleFile.forEach(element => {
+        try {
             index++;
             // The name of the input field (i.e. "sampleFile") is used to retrieve the uploaded file
 
@@ -72,12 +72,12 @@ app.post('/upload', function(req, res) {
                 res.sendFile(path.resolve(__dirname, root, 'game.html'));
 
             });
-        });
+        } catch (error) {
+            console.log("file uploaded fail");
+            console.log(error);
+        }
+    });
 
-    } catch (error) {
-        console.log("file uploaded fail");
-        console.log(error);
-    }
     // let sampleFile = req.files.sampleFile[0];
 
     // console.log(sampleFile);

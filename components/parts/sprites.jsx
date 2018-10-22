@@ -7,10 +7,10 @@ module.exports =  class sprites extends React.Component {
         this.state = {
             move:
             {
-                "left":["magic_left1.svg", "magic_left2.svg"],
-                "right":['magic_Right1.svg', 'magic_Right2.svg'],
-                "top":['', ''],
-                "down":['', '']
+                "left":  this.props.sprits.left || ["magic_left1.svg" , "magic_left2.svg"],
+                "right": this.props.sprits.right ||['magic_Right1.svg', 'magic_Right2.svg'],
+                "top":  this.props.sprits.top || ['magic_Right1.svg', 'magic_Right2.svg'],
+                "down":  this.props.sprits.down || ['magic_left1.svg', 'magic_left2.svg']
             },
             index: 2,
             state: "idl"
