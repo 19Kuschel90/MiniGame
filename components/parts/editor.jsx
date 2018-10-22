@@ -31,11 +31,16 @@ module.exports =  class Editor extends React.Component {
     }
 
     ifInputNull(){
-     var arr =    document.getElementsByName('sampleFile');
-     arr[0].files[0].push().name = "testAA";
-     arr[0].files[0].type = "image/png";
-     arr[0].files[0].size = 298351;
-    //  console.log(arr[0].files[0]);
+     var input =    document.getElementById('input');
+      var img =  document.getElementById('img');
+    //  input.name =  "ddfggg.png";
+    //  input.data =  img.data;
+    //  input.encoding =  '7bit';
+    //  input.truncated =  false;
+    //  input.minetype = 'imag/png';
+    //  too do
+     console.log(input);
+     console.log("////////////////////////////////////");
     }
     
     newImg(e){
@@ -81,7 +86,8 @@ module.exports =  class Editor extends React.Component {
         let ctx = canvas.getContext("2d");
         ctx.clearRect(0,0,canvas.width, canvas.height);
         ctx.drawImage(AvatarImg, 0, 0, 57,57);
-
+        console.log("dddddd",document.getElementById('hhhhhh'));
+        this.ifInputNull();
     }
 
     addimgTop(){
@@ -167,14 +173,13 @@ module.exports =  class Editor extends React.Component {
                 editor
                 <div>
                     <div>
-
                 <canvas id="canvas" width="57" height="57"></canvas>
                 <form ref='uploadForm' id='uploadForm' action='http://localhost:3000/upload#test' method='post' encType="multipart/form-data">
                 <ul>
                     <li> Move top<div>
                         
-                    <img alt="not" src="img/Luna_57x55_f1v1.png"  width="57" height="57" className="notSelect imgTemp Select"  onClick={this.select}></img>
-                    <input type="file" name="sampleFile"  onChange={this.newImg} src="#"/>
+                    <img alt="not" src="img/Luna_57x55_f1v1.png"  width="57" height="57" className="notSelect imgTemp Select"  onClick={this.select} id="img"></img>
+                    <input type="file" name="sampleFile"  onChange={this.newImg} src="#" id="input"/>
                     <div id="moreTop">{this.state.moreImgTop}</div>
                     </div></li>
                     <li> Add New Frame<div>

@@ -24,7 +24,8 @@ module.exports =  class controller extends React.Component {
            this.moveDown = this.moveDown.bind(this);
            this.send = this.send.bind(this);
            this.spawn = this.spawn.bind(this);
-                  this.state.playerCollider  =  this.props.collisions.createPolygon(this.state.postion[0], this.state.postion[1], [[0, 0], [0, 57], [57, 0], [57,57]]);
+            this.state.playerCollider  =  this.props.collisions.createPolygon(this.state.postion[0], this.state.postion[1], [[0, 0], [0, 57], [57, 0], [57,57]]);
+            this.setWindow = this.setWindow.bind(this);
 
 
         }
@@ -64,6 +65,8 @@ module.exports =  class controller extends React.Component {
             }
             this.setState({direction: "left"});
                 this.send();    
+                this.setWindow(this.state.postion[0],this.state.postion[1]);
+
         } 
     }
     
@@ -85,6 +88,7 @@ module.exports =  class controller extends React.Component {
             }
             this.setState({direction: "right"});     
             this.send();     
+            this.setWindow(this.state.postion[0],this.state.postion[1]);
     }
         
     }
@@ -108,6 +112,7 @@ module.exports =  class controller extends React.Component {
             this.setState({direction: "top"});
 
                 this.send(); 
+                this.setWindow(this.state.postion[0],this.state.postion[1]);
             
             
         }
@@ -132,9 +137,22 @@ module.exports =  class controller extends React.Component {
             this.setState({direction: "down"});
 
                 this.send(); 
-            
+                this.setWindow(this.state.postion[0],this.state.postion[1]);
             
         }
+    }
+
+    setWindow(X, Y){
+        let w = window.innerWidth
+        || document.documentElement.clientWidth
+        || document.body.clientWidth;
+        
+        let h = window.innerHeight
+        || document.documentElement.clientHeight
+        || document.body.clientHeight;
+        console.log("h Und W" ,w, h);
+        console.log("window" ,X/2, Y/2);
+        window.scrollTo(Y - (w /2), X- (h/ 2));
     }
 
     send(){
@@ -160,7 +178,11 @@ module.exports =  class controller extends React.Component {
         {
             // console.log(this.state.postion );
             // console.log(this.props.spwan );
-
+  //  input.name =  "ddfggg.png";
+    //  input.data =  img.data;
+    //  input.encoding =  '7bit';
+    //  input.truncated =  false;
+    //  input.minetype = 'imag/png';
             if(this.state.postion[0] != this.props.spwan[0])
             {
                 this.spawn();

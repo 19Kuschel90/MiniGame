@@ -57,32 +57,47 @@ app.post('/upload', function(req, res) {
     // console.log("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$");
     // console.log(req.files.sampleFile[0]);
     let index = 0;
-    req.files.sampleFile.forEach(element => {
-        try {
-            index++;
-            // The name of the input field (i.e. "sampleFile") is used to retrieve the uploaded file
+    console.log(req.files.sampleFile);
+    if (typeof req.files.sampleFile != "undefined") {
 
-            element.mv(`dist/public/uploadimg/filename${index}.png`, function(err) {
-                if (err)
-                    return res.status(500).send(err);
+        if (Array.isArray(req.files.sampleFile)) {
 
-                // res.send('File uploaded!');
-                console.log("file uploaded");
+            req.files.sampleFile.forEach(element => {
+                index++;
+                // The name of the input field (i.e. "sampleFile") is used to retrieve the uploaded file
+                createFile(element, index);
 
-                res.sendFile(path.resolve(__dirname, root, 'game.html'));
 
+
+                // let sampleFile = req.files.sampleFile[0];
+
+                // console.log(sampleFile);
+                // Use the mv() method to place the file somewhere on your server
             });
+        } else {
+            createFile(req.files.sampleFile, 666);
+        }
+    }
+    res.sendFile(path.resolve(__dirname, root, 'game.html'));
+});
+
+
+function createFile(input, index) {
+    input.mv(`dist/public/uploadimg/filename${index}.png`, function(err) {
+        try {
+
+            if (err)
+                return res.status(500).send(err);
+
+            // res.send('File uploaded!');
+            console.log("file uploaded");
+
         } catch (error) {
             console.log("file uploaded fail");
             console.log(error);
         }
     });
-
-    // let sampleFile = req.files.sampleFile[0];
-
-    // console.log(sampleFile);
-    // Use the mv() method to place the file somewhere on your server
-});
+}
 
 app.get('/EDITOR', function(request, response) {
 
