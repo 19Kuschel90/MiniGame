@@ -33,18 +33,18 @@ module.exports =  class Editor extends React.Component {
     ifInputNull(){
      var input =    document.getElementById('input');
       var img =  document.getElementById('img');
-    //  input.name =  "ddfggg.png";
-    //  input.data =  img.data;
-    //  input.encoding =  '7bit';
-    //  input.truncated =  false;
-    //  input.minetype = 'imag/png';
+     input.name =  "ddfggg.png";
+     input.data =  img.data;
+     input.encoding =  '7bit';
+     input.truncated =  false;
+     input.minetype = 'imag/png';
     //  too do
      console.log(input);
      console.log("////////////////////////////////////");
     }
     
     newImg(e){
-        // console.log(e.target.previousSibling);
+        // console.log("e.target.previousSibling");
      var file =   e.target.files;
      var image = e.target.previousSibling;
      image.src = window.URL.createObjectURL(file[0]);

@@ -1,8 +1,11 @@
 module.exports = {
     mode: 'development',
-    entry: "./client-Editor.jsx",
+    entry: {
+        BundleEditor: "./client-Editor.jsx",
+        BundleGame: "./client-App.jsx"
+    },
     output: {
-        filename: "./public/js/BundleEditor.js"
+        filename: "./public/js/[name].js"
     },
     module: {
         rules: [{
@@ -13,5 +16,6 @@ module.exports = {
     },
     resolve: {
         extensions: ['*', '.js', '.jsx']
-    }
+    },
+    externals: ["p5"]
 }

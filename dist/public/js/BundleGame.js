@@ -94,7 +94,7 @@
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var collisions__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! collisions */ \"./node_modules/collisions/src/Collisions.mjs\");\nvar React = __webpack_require__(/*! react */ \"./node_modules/react/index.js\");\nvar ReactDOM = __webpack_require__(/*! react-dom */ \"./node_modules/react-dom/index.js\");\nvar App = __webpack_require__(/*! ./components/App.Game */ \"./components/App.Game.jsx\");\n\nconst system = new collisions__WEBPACK_IMPORTED_MODULE_0__[\"Collisions\"]();\n\nReactDOM.render(React.createElement(App, { collisions: system }), document.getElementById('react-container'));\n\n//# sourceURL=webpack:///./client-App.jsx?");
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var collisions__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! collisions */ \"./node_modules/collisions/src/Collisions.mjs\");\nvar React = __webpack_require__(/*! react */ \"./node_modules/react/index.js\");\nvar ReactDOM = __webpack_require__(/*! react-dom */ \"./node_modules/react-dom/index.js\");\nvar App = __webpack_require__(/*! ./components/App.Game */ \"./components/App.Game.jsx\");\n\nconst system = new collisions__WEBPACK_IMPORTED_MODULE_0__[\"Collisions\"]();\n\nconsole.log(\"gaammmmmmm\");\nReactDOM.render(React.createElement(App, { collisions: system }), document.getElementById('react-container'));\n\n//# sourceURL=webpack:///./client-App.jsx?");
 
 /***/ }),
 
