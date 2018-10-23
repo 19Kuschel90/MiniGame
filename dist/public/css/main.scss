@@ -1,5 +1,8 @@
 @import "playerSprites";
 @import "controller";
+@import "weapons";
+@import "editor";
+@import "registration";
 * {
     margin: 0;
     padding: 0;
@@ -11,7 +14,7 @@ body {
 }
 
 #background {
-    background: url('../img/Logo_200x200v6.png');
+    background: url('../img/mapV0.png');
     width: 2000px;
     height: 2000px;
     background-repeat: space;

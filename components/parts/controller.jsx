@@ -7,46 +7,187 @@ module.exports =  class controller extends React.Component {
     constructor(props){
         super(props);   
         this.state = {
-            postion: [ 100,  100]
-           }
+            postion:    [ -999,  -999], // spwan
+            mapSize: this.props.mapSize || [ 0,0 ,2000, 2000],// map size in px
+            moveSpeed: this.props.moveSpeed || 10, // Move Speed
+            playerCollider: null,
+            canMove:false,
+            speed: 50,
+            direction: "left"
+        }
+        // createCanvas(720, 400);
+        // img = loadImage("img/Logo_200x200v6.png"); // Load the image
+        this.collides = this.collides.bind(this);
            this.moveLeft = this.moveLeft.bind(this);
            this.moveRight = this.moveRight.bind(this);
            this.moveTop = this.moveTop.bind(this);
            this.moveDown = this.moveDown.bind(this);
            this.send = this.send.bind(this);
+           this.spawn = this.spawn.bind(this);
+            this.state.playerCollider  =  this.props.collisions.createPolygon(this.state.postion[0], this.state.postion[1], [[0, 0], [0, 57], [57, 0], [57,57]]);
+            this.setWindow = this.setWindow.bind(this);
+
 
         }
+
+        collides(){
+            this.props.collisions.update();
+    const potentials = this.state.playerCollider.potentials();
+    for(const wall of potentials) {
+        
+        // Test if the player collides with the wall
+        if(this.state.playerCollider.collides(wall)) {
+            console.log('collides');
+            return true;
+        }
+    }
+    console.log('NOOOOO collides');
+    return false;
+        }
+
         
     moveLeft(){
-        this.setState({postion: [this.state.postion[0],this.state.postion[1] - 10]});
-        this.send();
+        console.log('performance. neu',performance.now() * (this.state.speed / 1000) );
+
+        var move  = this.state.postion[1] - this.state.moveSpeed;
+        if(this.state.mapSize[0] < move && this.state.canMove){
+            var oldPostion = this.state.postion;
+            this.setState({postion: [this.state.postion[0],this.state.postion[1] - (this.state.speed *(this.state.speed / 1000) )]});
+            this.state.playerCollider.x = this.state.postion[0];
+            this.state.playerCollider.y = this.state.postion[1];
+            
+            if(this.collides())
+            {
+                this.setState({postion: [this.state.postion[0],this.state.postion[1] + (this.state.speed *(this.state.speed / 1000) )]});
+                this.state.playerCollider.x = this.state.postion[0];
+                this.state.playerCollider.y = this.state.postion[1];
+                return;
+            }
+            this.setState({direction: "left"});
+                this.send();    
+                this.setWindow(this.state.postion[0],this.state.postion[1]);
+
+        } 
     }
     
-    moveRight(){
-        this.setState({postion: [this.state.postion[0],this.state.postion[1] + 10]});
-        this.send();
+    moveRight(){  
+       
+        var move  = this.state.postion[1] + this.state.moveSpeed;
+        if(this.state.mapSize[2] > move && this.state.canMove){
+            var oldPostion = this.state.postion;
+            this.setState({postion: [this.state.postion[0],this.state.postion[1] + (this.state.speed *(this.state.speed / 1000) )]});
+            this.state.playerCollider.x = this.state.postion[0];
+            this.state.playerCollider.y = this.state.postion[1];
+            
+            if(this.collides())
+            {
+                this.setState({postion: [this.state.postion[0],this.state.postion[1] - (this.state.speed *(this.state.speed / 1000) )]});
+                this.state.playerCollider.x = this.state.postion[0];
+                this.state.playerCollider.y = this.state.postion[1];
+                return;
+            }
+            this.setState({direction: "right"});     
+            this.send();     
+            this.setWindow(this.state.postion[0],this.state.postion[1]);
+    }
         
     }
 
     moveTop(){
-        this.setState({postion: [this.state.postion[0] - 10,this.state.postion[1] ]});
-        this.send();
+       
+        var move  = this.state.postion[0] - this.state.moveSpeed;
+        if(this.state.mapSize[1] < move && this.state.canMove){
+            var oldPostion = this.state.postion;
+            this.setState({postion: [this.state.postion[0] - (this.state.speed *(this.state.speed / 1000) ),this.state.postion[1] ]});
+            this.state.playerCollider.x = this.state.postion[0];
+            this.state.playerCollider.y = this.state.postion[1];
+            
+            if(this.collides())
+            {
+                this.setState({postion: [this.state.postion[0] + (this.state.speed  *(this.state.speed / 1000)  ) ,this.state.postion[1] ]});
+                this.state.playerCollider.x = this.state.postion[0];
+                this.state.playerCollider.y = this.state.postion[1];
+                return;
+            }
+            this.setState({direction: "top"});
+
+                this.send(); 
+                this.setWindow(this.state.postion[0],this.state.postion[1]);
+            
+            
+        }
     }
 
     moveDown(){
-        this.setState({postion: [this.state.postion[0] + 10,this.state.postion[1] ]});
-        this.send();
+       
+        var move  = this.state.postion[0] + this.state.moveSpeed;
+        if(this.state.mapSize[3] > move && this.state.canMove){
+        var oldPostion = this.state.postion;
+            this.setState({postion: [this.state.postion[0]+ (this.state.speed *(this.state.speed / 1000) ),this.state.postion[1]]});
+            this.state.playerCollider.x = this.state.postion[0];
+            this.state.playerCollider.y = this.state.postion[1];
+            
+            if(this.collides())
+            {
+                this.setState({postion: [this.state.postion[0]-(this.state.speed *(this.state.speed / 1000) ),this.state.postion[1]]});
+                this.state.playerCollider.x = this.state.postion[0];
+                this.state.playerCollider.y = this.state.postion[1];
+                return;
+            }
+            this.setState({direction: "down"});
+
+                this.send(); 
+                this.setWindow(this.state.postion[0],this.state.postion[1]);
+            
+        }
+    }
+
+    setWindow(X, Y){
+        let w = window.innerWidth
+        || document.documentElement.clientWidth
+        || document.body.clientWidth;
+        
+        let h = window.innerHeight
+        || document.documentElement.clientHeight
+        || document.body.clientHeight;
+        console.log("h Und W" ,w, h);
+        console.log("window" ,X/2, Y/2);
+        window.scrollTo(Y - (w /2), X- (h/ 2));
     }
 
     send(){
-        console.log("id controller", this.props.id);
-        var newPosition = this.state.postion;
-        newPosition.push(this.props.id);
+        var newPosition = {
+            postion: this.state.postion,
+            id: this.props.id,
+            direction: this.state.direction
+        }
+        // var newPosition = this.state.postion;
+        // newPosition.push(this.props.id);
             this.props.socket.emit('newPos',  newPosition);
     }
 
+    spawn(){
+
+        this.setState({canMove: true});
+        this.setState({postion: this.props.spwan});
+    }
+
     render(){
-    
+
+        if(this.state.canMove == false)
+        {
+            // console.log(this.state.postion );
+            // console.log(this.props.spwan );
+  //  input.name =  "ddfggg.png";
+    //  input.data =  img.data;
+    //  input.encoding =  '7bit';
+    //  input.truncated =  false;
+    //  input.minetype = 'imag/png';
+            if(this.state.postion[0] != this.props.spwan[0])
+            {
+                this.spawn();
+            }
+        }
         return(
             <div>
                 <div className={"controller"}>
@@ -55,7 +196,19 @@ module.exports =  class controller extends React.Component {
                 <button onClick={this.moveRight}  className={"buttonRight"}>right</button>
                 <button onClick={this.moveDown} className={"buttonDown"}>down</button>
                 </div>
-              <this.props.sprite postion={[this.state.postion[0],this.state.postion[1]]}>
+
+                <div className="weapons-1">
+                  <img src={ null  ||"img/OC.svg" } className="pic"/>
+                </div>
+                <div className="weapons-2">
+                  <img src={"img/OC.svg" } className="pic"/>
+                </div>
+                <div className="weapons-3">
+                  <img src={"img/OC.svg" } className="pic"/>
+                </div>
+
+            
+              <this.props.sprite postion={[this.state.postion[0],this.state.postion[1]]} collisions={this.props.collisions} playerName={this.props.playerName} direction={this.state.direction}>
                 </this.props.sprite>
             </div>
         );

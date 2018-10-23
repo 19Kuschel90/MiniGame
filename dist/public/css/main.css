@@ -2,6 +2,13 @@
   position: absolute;
 }
 
+.collider {
+  width: 57px;
+  height: 57px;
+  background-color: blueviolet;
+  opacity: 0.8;
+}
+
 .buttonTop,
 .buttonDown,
 .buttonRight,
@@ -34,6 +41,85 @@
   left: 3%;
 }
 
+.weapons-1 {
+  width: 60px;
+  height: 60px;
+  border-style: solid;
+  position: fixed;
+  bottom: 7%;
+  left: 30%;
+}
+
+.weapons-2 {
+  width: 60px;
+  height: 60px;
+  border-style: solid;
+  position: fixed;
+  bottom: 7%;
+  left: 40%;
+}
+
+.weapons-3 {
+  width: 60px;
+  height: 60px;
+  border-style: solid;
+  position: fixed;
+  bottom: 7%;
+  left: 50%;
+}
+
+.pic {
+  width: 60px;
+  height: 60px;
+}
+
+.weapons-1:hover,
+.weapons-2:hover,
+.weapons-3:hover {
+  border-color: coral;
+  background: pink;
+}
+
+ul {
+  list-style-type: none;
+}
+
+ul li {
+  list-style-type: none;
+  display: inline-block;
+}
+
+canvas {
+  border: solid;
+}
+
+.Select {
+  border: 3px solid deepskyblue;
+}
+
+.notSelect {
+  border: 3px outset darkmagenta;
+}
+
+.registration {
+  width: 50%;
+  background: green;
+  margin: 0 auto;
+  margin-top: 5%;
+}
+
+.logo {
+  width: 50%;
+  margin: 0 auto;
+}
+
+.logo img {
+  width: 60px;
+  height: 60px;
+  border-radius: 100%;
+  background: white;
+}
+
 * {
   margin: 0;
   padding: 0;
@@ -46,7 +132,7 @@ body {
 }
 
 #background {
-  background: url("../img/Logo_200x200v6.png");
+  background: url("../img/mapV0.png");
   width: 2000px;
   height: 2000px;
   background-repeat: space;
