@@ -1,3 +1,5 @@
 # MiniGame
 
+npm install
+
 node server.js
